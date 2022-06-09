@@ -11,8 +11,8 @@
                         <i class="pe-7s-cart icon-gradient bg-mean-fruit">
                         </i>
                     </div>
-                    <div>Welcome to kabisto.AI System
-                        <div class="page-title-subheading">AI Powered Inventory System on Blockchain
+                    <div>Welcome to Agro-Sales.AI System
+                        <div class="page-title-subheading">AI Powered Agricultural Inventory System
                         </div>
                     </div>
                 </div>
@@ -20,10 +20,10 @@
                     <button type="button" aria-haspopup="true" aria-expanded="false"
                         class="btn-shadow dropdown-toggle btn btn-info">
                         <span class="btn-icon-wrapper pr-2 opacity-7">
-                            <i class="fa fa-business-time fa-w-20"></i> <a href="{% url 'add_customer' %}">
+                            <i class="fa fa-business-time fa-w-20"></i>
                         </span>
-                        Add Customer
-                    </a></button>
+                        Report
+                    </button>
                 </div>
             </div>
         </div>
@@ -31,25 +31,33 @@
         <div class="col-lg-12">
             <div class="main-card mb-3 card">
                 <div class="card-body">
-                    <h5 class="card-title">Customers</h5>
-                    <table class="mb-0 table table-striped" style="width: 100%;">
+                    <h5 class="card-title">Sales Report</h5>
+                    <table style="width:100%;" class="mb-0 table table-striped">
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Customer Name</th>
-                                <th>Phone Number</th>
-                                <th>Address</th>
-                                <th>Date Created</th>
+                                <th>Product Name</th>
+                                <th>Product Category</th>
+                                <th>Purchase Price</th>
+                                <th>Selling Price</th>
+                                <th>Quantity</th>
+                                <th>Total</th>
+                                <th>Profit</th>
+                                <th>Date</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {% for c in customers %}
+                            {% for r in reports %}
                             <tr>
-                                <th scope="row">{{c.id}}</th>
-                                <td>{{c.cus_name}}</td>
-                                <td>{{c.phone}}</td>
-                                <td>{{c.address}}</td>
-                                <td>{{c.date_created}}</td>
+                                <th scope="row">{{r.id}}</th>
+                                <td>{{r.products}}</td>
+                                <td>{{r.category}}</td>
+                                <td>{{r.buying_price}}</td>
+                                <td>{{r.selling_price}}</td>
+                                <td>{{r.quantity}}</td>
+                                <td>{{r.amount}}</td>
+                                <td>{{r.profit}}</td>
+                                <td>{{r.date_created}}</td>
                             </tr>
                             {% endfor %}
                         </tbody>
@@ -59,6 +67,5 @@
         </div>
     </div>
 </div>
-
 
 {% endblock content %}

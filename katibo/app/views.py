@@ -1,6 +1,5 @@
 import re
 from matplotlib.pyplot import figure
-import mpld3
 import pandas as pd
 import numpy as np
 
