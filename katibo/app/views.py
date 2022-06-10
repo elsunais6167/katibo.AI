@@ -1,13 +1,12 @@
 import re
-from matplotlib.pyplot import figure
-import pandas as pd
-import numpy as np
+import pickle
+import cgi, cgitb
 
 from django.core.paginator import Paginator
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from django.forms import modelformset_factory
-from django.forms import inlineformset_factory
+from matplotlib.style import context
+
 
 from .forms import CreateUserForm
 from .forms import CustomerForm
@@ -21,15 +20,10 @@ from .models import *
 
 # Create your views here.
 
-data = pd.read_csv('dataset.csv')
-fig = figure()
-ax = fig.gca()
 
-graph = data.plot(x='date', y=['buying_price', 'selling_price', 'profit'])
 def index(request):
-    graph_data = data
-    p = graph
-    context = {'p': p, 'graph_data' : graph_data}
+    
+    context = {}
     return render(request, 'index.html', context)
 
 def sale(request):
@@ -90,11 +84,35 @@ def report(request):
     return render(request, 'report.html', context)
 
 #Artificial Intelligence Implementations
-def sell_pred(request):
-    context = {}
+def anal(request):
+    request.method = 'POST'
+    a = request.POST['q1']
+    if a == 'Yes':
+        res1 = 1
+    else:
+        res1 = 0
+    
+    a = request.POST['q2']
+    if a == 'Yes':
+        res2 = 1
+    else:
+        res2 = 0
+    
+    responses = [[res1, res2,]]
+    
+    with open('model', 'rb') as f:
+        model = pickle.load(f)
+    
+    rest = model.predict(responses)
+
+    context = {'rest': rest}
     return render(request, 'sell.html', context)
 
+def sell_pred(request):
+    return render(request, 'sell.html')
+
 def prof_pred(request):
+    request.GET
     context = {}
     return render(request, 'prof.html', context)
 

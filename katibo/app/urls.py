@@ -21,4 +21,5 @@ urlpatterns = [
     path('add_category', views.create_category, name='add_category'),
     path('add_qty/<str:pk>', views.add_qty, name='add_qty'),
     path('sale_item', views.sale_item, name='sale_item'),
+    path('analyser/', views.anal, name="analyser")
 ]
