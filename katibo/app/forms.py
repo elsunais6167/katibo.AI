@@ -34,6 +34,16 @@ class SaleForm(ModelForm):
     class Meta:
         model = Sale
         fields = '__all__'
+
+class InsurForm(ModelForm):
+    class Meta:
+        model = Insurance
+        fields = ['crop', 'type', 'predicted_harvest_quantity_in_tonnes', 'coverage_period_from', 'coverage_period_to']
+
+class ClaimForm(ModelForm):
+    class Meta:
+        model = Claim
+        fields = ['claim_on', 'description']
 '''
 class SaleForm(forms.Form):
     product = forms.CharField(label='product', max_length=50)

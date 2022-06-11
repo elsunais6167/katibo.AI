@@ -8,14 +8,17 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from matplotlib.style import context
 from sqlalchemy import Float
+from sympy import total_degree
 
 
-from .forms import CreateUserForm
+from .forms import ClaimForm, CreateUserForm
 from .forms import CustomerForm
 from .forms import CategoryForm
 from .forms import ProductForm
 from .forms import AddQtyForm
 from .forms import SaleForm
+from .forms import InsurForm
+from .forms import Claim
 
 from .models import *
 
@@ -67,12 +70,12 @@ def add(request):
 
 def customer(request):
     customers = Customer.objects.all()
-
+    total_cus = customers.objects.all().count()
     pagination = Paginator(customers, 10)
     page_num = request.GET.get('page')
     pag_obj = pagination.get_page(page_num)
 
-    context = {'pag_obj':pag_obj, 'customers': customers}
+    context = {'pag_obj':pag_obj, 'customers': customers, 'total_cus': total_cus}
     return render(request, 'customer.html', context)
 
 def report(request):
@@ -169,7 +172,7 @@ def analp(request):
     else:
         res5 = 3
     
-    responses = [[res1, res5, res2,]]
+    responses = [[res1, res5, res2]]
     #responses = list(map(int, responses))
 
     with open('price_model.sav', 'rb') as f:
@@ -183,12 +186,21 @@ def analp(request):
     return render(request, 'prof.html', context)
 
 def types(request):
-    context = {}
+    insurance = Insurance.objects.all()
+    pagination = Paginator(insurance, 10)
+    page_num = request.GET.get('page')
+    pag_obj = pagination.get_page(page_num)
+    context = {'insurance': insurance, 'pag_obj': pag_obj}
     return render(request, 'types.html', context)
 
 def change(request):
-    context ={}
+    claim = Claim.objects.all()
+    pagination = Paginator(claim, 10)
+    page_num = request.GET.get('page')
+    pag_obj = pagination.get_page(page_num)
+    context = {'claim': claim, 'pag_obj': pag_obj}
     return render(request, 'change.html', context)
+
 
 #Settings
 def profile(request):
@@ -239,6 +251,29 @@ def  create_category(request):
     context = {'form': form}
 
     return render(request, 'add_category.html', context)
+
+def add_insur(request):
+    form = InsurForm()
+    if request.method == "POST":
+        form = InsurForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('types')
+
+    context = {'form': form}
+
+    return render(request, 'add_insurance.html', context)
+
+def add_claim(request):
+    form = ClaimForm()
+    if request.method == "POST":
+        form = ClaimForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('change')
+
+    context = {'form': form}
+    return render(request, 'add_claim.html', context)
 """
 def sale_item(request):
     formset = inlineformset_factory(Product, Sale)

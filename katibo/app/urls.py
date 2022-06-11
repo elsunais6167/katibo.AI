@@ -22,5 +22,7 @@ urlpatterns = [
     path('add_qty/<str:pk>', views.add_qty, name='add_qty'),
     path('sale_item', views.sale_item, name='sale_item'),
     path('analyser/', views.anal, name="analyser"),
-    path('analyserp/', views.analp, name="analyserp")
+    path('analyserp/', views.analp, name="analyserp"),
+    path('add_insur/', views.add_insur, name="add_insur"),
+    path('add_claim', views.add_claim, name="add_claim")
 ]

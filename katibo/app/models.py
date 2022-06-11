@@ -66,3 +66,36 @@ class Sale(models.Model):
         quant = self.quantity
         total = sales * quant
         return total
+
+class Insurance(models.Model):
+    CATEGORY = (
+			('Transport', 'Transport'),
+			('Farming', 'Farming'),
+			('Storage', 'Storage'),
+			) 
+    type = models.CharField(max_length=200, null=True, choices=CATEGORY)
+    crop = models.ForeignKey('Product', null=True, on_delete=models.SET_NULL)
+    predicted_harvest_quantity_in_tonnes = models.FloatField()
+    coverage_period_from = DateField()
+    coverage_period_to = DateField()
+    date_submitted = DateField(auto_now_add=True)
+    STAT = (
+        ('Submitted', 'Submitted'),
+        ('Processing', 'Processing'),
+        ('Insured', 'Insured')
+    )
+    status = models.CharField(default='Submitted', max_length=200, null=True, choices=STAT)
+
+    def __int__(self):
+        return self.crop
+
+class Claim(models.Model):
+    claim_on = models.ForeignKey('Insurance', null=True, on_delete=SET_NULL)
+    description = models.TextField(max_length= 2000)
+    date_submitted = DateField(auto_now_add=True)
+    STAT = (
+        ('Submitted', 'Submitted'),
+        ('Processing', 'Processing'),
+        ('Granted', 'Granted')
+    )
+    status = models.CharField(default='Submitted', max_length=200, null=True, choices=STAT)

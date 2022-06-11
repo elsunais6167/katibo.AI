@@ -17,13 +17,15 @@
                     </div>
                 </div>
                 <div class="page-title-actions">
-                    <button  type="button" aria-haspopup="true" aria-expanded="false"
+                    <a href="{% url 'add_product' %}">
+                        <button  type="button" aria-haspopup="true" aria-expanded="false"
                         class="btn-shadow dropdown-toggle btn btn-info">
                         <span class="btn-icon-wrapper pr-2 opacity-7"> </a>
                             <i class="fa fa-business-time fa-w-20"></i>
-                        </span><a href="{% url 'add_product' %}">
+                        </span>
                         Add Product
-                    </a></button>
+                        </button>
+                    </a>
                 </div>
             </div>
         </div>
