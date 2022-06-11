@@ -1,7 +1,10 @@
 {% extends 'header.html' %}
 
+{% load crispy_forms_tags %}
+
 {% block content %}
 {% include 'sidebar.html' %}
+
 <div class="app-main__outer">
     <div class="app-main__inner">
         <div class="app-page-title">
@@ -16,39 +19,74 @@
                         </div>
                     </div>
                 </div>
+                <div class="page-title-actions">
+
+                    <div class="d-inline-block dropdown">
+
+                        <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu dropdown-menu-right">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 <div class="container">
-        <div class="row align-items-end">
 
-
-            <form method="POST" action="{% url 'analyser' %}">
-                {% csrf_token %}
-                <div class="mb-3">
-                    <div class="input-group">
-                        <span class="input-group-text">Is the patient experiencing Abdominal Pain, recently?</span>
-                        <select class="form-select" name="q1">
-                            <option>Yes</option>
-                            <option>No</option>
-                        </select>
+    <div class="card o-hidden border-0 shadow-lg my-5">
+        <div class="card-body p-0">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="p-5">
+                        <div class="text-center">
+                            <h1 class="h4 text-gray-900 mb-4">Predict Yield</h1>
+                        </div>
+                        <form method="POST" action="{% url 'analyser' %}">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="exampleFormControlSelect1">Your Region</label>
+                                <select class="form-control" required id="q0" name="q1">
+                                  <option>North-West</option>
+                                  <option>North-East</option>
+                                  <option>North-Central</option>
+                                  <option>South-South</option>
+                                  <option>South-East</option>
+                                  <option>South-West</option>
+                                </select>
+                              </div>
+                              <div class="form-group">
+                                <label for="exampleFormControlInput1">Your Average Temperature</label>
+                                <input type="input" class="form-control" id="q1" required name="q2" placeholder="type only number">
+                              </div>
+                            <div class="form-group">
+                                <label for="exampleFormControlInput1">Area Size of your Farm-Land</label>
+                                <input type="input" class="form-control" id="q2" required name="q3" placeholder="type only number">
+                              </div>
+                              <div class="form-group">
+                                <label for="exampleFormControlInput1">Your Total Annual Rainfall</label>
+                                <input type="input" class="form-control" id="q3" required name="q4" placeholder="type only number">
+                              </div>
+                              <div class="form-group">
+                                <label for="exampleFormControlSelect1">Select Crop</label>
+                                <select class="form-control" id="q4" name="q5" required>
+                                  <option>Maize Corn</option>
+                                  <option>Yam Tuber</option>
+                                  <option>Millet Grain</option>
+                                </select>
+                              </div>
+                              <button type="submit" class="btn btn-primary btn-lg btn-block">Analyse</button>
+                              <div class="form-group">
+                                <label for="exampleFormControlTextarea1">Analysis Report</label>
+                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" readonly>
+                                {{pred}} {{y_pred}} {{size}}
+                                </textarea>
+                              </div>
+                              
+                    </form>
+                        
                     </div>
                 </div>
-                <div class="mb-3">
-                    <div class="input-group">
-                        <span class="input-group-text">Does the patient suffer from Diarrhea?</span>
-                        <select class="form-select" name="q2">
-                            <option>Yes</option>
-                            <option>No</option>
-                        </select>
-                    </div>
-                </div>
+            </div>
         </div>
-        <div class="mb-3">
-            <input type="submit" id="join-btn" name="join" alt="Join" value="Analyse">
-        </div>
-        <div class="mb-3">
-            <label for="exampleFormControlTextarea1" class="form-label">Analysis Report</label>
-            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="{{prediction}}"></textarea>
-        </div>
-        </form>
-
     </div>
-{% endblock content %}
+</div>
+{% endblock content%}

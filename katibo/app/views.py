@@ -87,25 +87,46 @@ def report(request):
 def anal(request):
     request.method = 'POST'
     a = request.POST['q1']
-    if a == 'Yes':
+    if a == 'North-West':
         res1 = 1
+    elif a == 'North-West':
+        res1 = 2
+    elif a == 'North-Central':
+        res1 = 3
+    elif a == 'South-South':
+        res1 = 4
+    elif a == 'South-East':
+        res1 = 5
     else:
-        res1 = 0
+        res1 = 6
     
-    a = request.POST['q2']
-    if a == 'Yes':
-        res2 = 1
+    
+    res2 = request.POST['q2']
+    res2 = int(res2)
+    res3 = request.POST['q3']
+    res3 = int(res3)
+    res4 = request.POST['q4']
+    res4 = int(res4)
+
+    a = request.POST['q5']
+    if a == 'Maize Corn':
+        res5 = 1
+    elif a == 'Yam Tuber':
+        res5 = 2
     else:
-        res2 = 0
+        res5 = 3
     
-    responses = [[res1, res2,]]
-    
-    with open('model', 'rb') as f:
+    responses = [[res1, res2, res3, res4, res5]]
+    #responses = list(map(int, responses))
+
+    with open('yield_model.sav', 'rb') as f:
         model = pickle.load(f)
     
-    rest = model.predict(responses)
-
-    context = {'rest': rest}
+    y_pred = model.predict(responses)
+    y_pred = int(y_pred)
+    pred = 'Based on the provided information, your total yield for this year is'
+    size = 'tonnes'
+    context = {'pred': pred, 'y_pred': y_pred, 'size': size}
     return render(request, 'sell.html', context)
 
 def sell_pred(request):
@@ -114,6 +135,47 @@ def sell_pred(request):
 def prof_pred(request):
     request.GET
     context = {}
+    return render(request, 'prof.html', context)
+
+def analp(request):
+    request.method = 'POST'
+    a = request.POST['q1']
+    if a == 'North-West':
+        res1 = 1
+    elif a == 'North-West':
+        res1 = 2
+    elif a == 'North-Central':
+        res1 = 3
+    elif a == 'South-South':
+        res1 = 4
+    elif a == 'South-East':
+        res1 = 5
+    else:
+        res1 = 6
+    
+    
+    res2 = request.POST['q2']
+    res2 = int(res2)
+    
+
+    a = request.POST['q5']
+    if a == 'Maize Corn':
+        res5 = 1
+    elif a == 'Yam Tuber':
+        res5 = 2
+    else:
+        res5 = 3
+    
+    responses = [[res1, res5, res2,]]
+    #responses = list(map(int, responses))
+
+    with open('price_model.sav', 'rb') as f:
+        model = pickle.load(f)
+    
+    y_pred = model.predict(responses)
+    pred = 'Based on the provided information, your total yield for this year is'
+    size = 'tonnes'
+    context = {'pred': pred, 'y_pred': y_pred, 'size': size}
     return render(request, 'prof.html', context)
 
 def types(request):
