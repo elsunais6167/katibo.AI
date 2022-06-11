@@ -3,9 +3,11 @@ import pickle
 import cgi, cgitb
 
 from django.core.paginator import Paginator
+from django.forms import FloatField
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from matplotlib.style import context
+from sqlalchemy import Float
 
 
 from .forms import CreateUserForm
@@ -75,12 +77,13 @@ def customer(request):
 
 def report(request):
     reports = Sale.objects.all()
-    
+    #    total = F('selling_price') * F('quantity')
+    #)
     pagination = Paginator(reports, 10)
     page_num = request.GET.get('page')
     pag_obj = pagination.get_page(page_num)
 
-    context = {'pag_obj': pag_obj, 'reports': reports}
+    context = {'pag_obj': pag_obj, 'reports': reports, }
     return render(request, 'report.html', context)
 
 #Artificial Intelligence Implementations
@@ -124,7 +127,7 @@ def anal(request):
     
     y_pred = model.predict(responses)
     y_pred = int(y_pred)
-    pred = 'Based on the provided information, your total yield for this year is'
+    pred = 'Based on the provided information, your PREDICTED total yield for this year is'
     size = 'tonnes'
     context = {'pred': pred, 'y_pred': y_pred, 'size': size}
     return render(request, 'sell.html', context)
@@ -173,8 +176,9 @@ def analp(request):
         model = pickle.load(f)
     
     y_pred = model.predict(responses)
-    pred = 'Based on the provided information, your total yield for this year is'
-    size = 'tonnes'
+    y_pred = int(y_pred)
+    pred = 'Based on the provided information, your PREDICTED total sales for this year is'
+    size = 'Nigeria Naira'
     context = {'pred': pred, 'y_pred': y_pred, 'size': size}
     return render(request, 'prof.html', context)
 

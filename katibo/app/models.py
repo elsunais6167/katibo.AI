@@ -36,7 +36,6 @@ class Product(models.Model):
     prod_name = models.CharField(max_length=50, null=True)
     prod_cat = models.ForeignKey(Category, db_column='cat_name', null=True, on_delete=models.SET_NULL)
     buying_price = models.IntegerField()
-    selling_price = models.IntegerField()
     prod_qty = models.IntegerField()
     date_created = models.DateField(auto_now_add=True)
     
@@ -54,13 +53,16 @@ class Add(models.Model):
 
 class Sale(models.Model):
     products = models.ForeignKey('Product', null=True, on_delete=models.SET_NULL)
-    category = models.ForeignKey('Category', null=True, on_delete=models.SET_NULL)
-    buying_price = models.IntegerField()
     selling_price = models.IntegerField()
     quantity = models.IntegerField()
-    amount = models.IntegerField()
-    profit = models.IntegerField()
     date_created = DateField(auto_now_add=True)
 
     def __str__(self):
-        return self.prod_cat
+        return self.products
+    
+    @property
+    def Total_sales(self):
+        sales = self.selling_price
+        quant = self.quantity
+        total = sales * quant
+        return total
