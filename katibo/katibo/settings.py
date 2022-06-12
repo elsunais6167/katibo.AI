@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+import django_heruko
+import django
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -25,7 +27,7 @@ SECRET_KEY = 'rb@ivtk@v$v!-i9_a+5jj%%xro!r86n#nc%9xj-p6a26f*nj2='
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['agro-sales.herokuapp.com']
 
 
 # Application definition
@@ -77,10 +79,21 @@ WSGI_APPLICATION = 'katibo.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.sqlite3',
+#        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#    }
+#}
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'd38elsh68nugf9',
+        'USER': 'yverspgnggasib',
+        'PASSWORD': 'a64b5f224b39c30e60f1cea7eef694a1794a9cc0adcdbdc7716ba6b3fab23b51',
+        'HOST': 'ec2-34-225-159-178.compute-1.amazonaws.com',
+        'PORT': '5432',
     }
 }
 
@@ -121,8 +134,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
-STATIC_URL = '/static/'
+#STATIC_URL = '/static/'
 
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static')
-]
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_URL = '/static/'
+django_heroku.settibgs(locals())
