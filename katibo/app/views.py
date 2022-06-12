@@ -70,12 +70,11 @@ def add(request):
 
 def customer(request):
     customers = Customer.objects.all()
-    total_cus = customers.objects.all().count()
     pagination = Paginator(customers, 10)
     page_num = request.GET.get('page')
     pag_obj = pagination.get_page(page_num)
 
-    context = {'pag_obj':pag_obj, 'customers': customers, 'total_cus': total_cus}
+    context = {'pag_obj':pag_obj, 'customers': customers}
     return render(request, 'customer.html', context)
 
 def report(request):
